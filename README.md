@@ -9,6 +9,11 @@ A high-performance web server built with Go Fiber framework, featuring middlewar
 - Middleware support with prefix routing
 - Pre-fork mode enabled for better performance
 - Simple API endpoints demonstration
+- Support for JSON, XML, and Form data parsing
+- File upload capabilities
+- Static file serving
+- Template rendering with Mustache
+- Comprehensive error handling
 
 ## Prerequisites
 
@@ -36,22 +41,100 @@ The server is configured with the following default settings:
 - Write Timeout: 5 seconds
 - Pre-fork mode: Enabled
 - Server Address: localhost:3000
+- Template Engine: Mustache
 
 ## API Endpoints
 
-### 1. Root Endpoint
-- Path: `/`
-- Method: `GET`
-- Response: "Hello, World!"
+### Basic Endpoints
+1. **Root Endpoint**
+   - Path: `/`
+   - Method: `GET`
+   - Response: "Hello, World!"
 
-### 2. API Version 1 Endpoint
-- Path: `/api/v1`
-- Method: `GET`
-- Response: "Hello, World!"
+2. **Hello with Query Parameter**
+   - Path: `/hello`
+   - Method: `GET`
+   - Query Parameters: `name` (optional, defaults to "Guest")
+   - Example: `/hello?name=Dika`
+   - Response: "Hello {name}"
 
-## Middleware
+3. **Request Headers and Cookies**
+   - Path: `/request`
+   - Method: `GET`
+   - Headers: `firstname`
+   - Cookies: `lastname`
+   - Response: "Hello {firstname} {lastname}"
 
-The application includes middleware for the `/api` prefix that logs before and after each request.
+### User and Order Management
+4. **User Order Details**
+   - Path: `/users/:userId/orders/:orderId`
+   - Method: `GET`
+   - URL Parameters:
+     - `userId`: User identifier
+     - `orderId`: Order identifier
+   - Response: Order details for specific user
+
+### Form Handling
+5. **Form Submission**
+   - Path: `/hello`
+   - Method: `POST`
+   - Content-Type: `application/x-www-form-urlencoded`
+   - Form Parameters: `name`
+   - Response: "Hello {name}"
+
+6. **File Upload**
+   - Path: `/upload`
+   - Method: `POST`
+   - Content-Type: `multipart/form-data`
+   - Form Parameters: `file`
+   - Response: Upload confirmation message
+   - Note: Files are saved to ./target directory
+
+### Authentication Endpoints
+7. **Login**
+   - Path: `/login`
+   - Method: `POST`
+   - Content-Type: `application/json`
+   - Request Body:
+     ```json
+     {
+       "username": "string",
+       "password": "string"
+     }
+     ```
+   - Response: "Hello {username}"
+
+8. **Register**
+   - Path: `/register`
+   - Method: `POST`
+   - Supports Multiple Content-Types:
+     - `application/json`
+     - `application/xml`
+     - `application/x-www-form-urlencoded`
+   - Request Body:
+     ```json
+     {
+       "username": "string",
+       "password": "string",
+       "name": "string"
+     }
+     ```
+   - Response: "Register {username} successfully"
+
+### Static Files
+- Serves static files from configured directory
+- Supports file downloads
+
+### Template Rendering
+- Supports Mustache templates
+- Templates located in ./template directory
+- File extension: .mustache
+
+## Error Handling
+
+The application includes a custom error handler that returns:
+- Status: 500 Internal Server Error
+- Response: "Error: {error_message}"
 
 ## Running the Application
 
@@ -70,6 +153,8 @@ Run the tests using:
 ```bash
 go test -v
 ```
+
+The test suite includes comprehensive tests for all endpoints and features.
 
 ## Dependencies
 
