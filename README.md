@@ -1,4 +1,4 @@
-# Go Fiber Web Server
+# Go Fiber
 
 A high-performance web server built with Go Fiber framework, featuring middleware support and configurable timeouts.
 
